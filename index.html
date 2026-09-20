@@ -260,18 +260,18 @@ justify-content:center;gap:20px;}
     .lg-tip{font-size:1rem;color:#a8d8c8;line-height:1.4;}
 
     /* ── Sizing/Slant/Spacing grid ── */
-    .sss-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:6px;}
-    .sss-card{background:rgba(255,255,255,0.07);border:1px solid rgba(100,200,160,0.25);border-radius:10px;padding:20px 18px;}
-    .sss-icon{font-size:2rem;margin-bottom:8px;}
-    .sss-heading{font-family:'Caveat',cursive;font-size:1.35rem;color:#f5c842;font-weight:700;margin-bottom:10px;}
-    .sss-list{margin:0;padding-left:18px;font-size:1.05rem;color:#c8e6d8;line-height:1.8;}
-    .sss-list li{margin-bottom:2px;}
+    .sss-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:6px;flex:1;min-height:0;}
+    .sss-card{background:rgba(255,255,255,0.07);border:1px solid rgba(100,200,160,0.25);border-radius:12px;padding:28px 26px;display:flex;flex-direction:column;}
+    .sss-icon{font-size:2.8rem;margin-bottom:12px;}
+    .sss-heading{font-family:'Caveat',cursive;font-size:2rem;color:#f5c842;font-weight:700;margin-bottom:14px;}
+    .sss-list{margin:0;padding-left:22px;font-size:1.5rem;color:#c8e6d8;line-height:2.1;flex:1;}
+    .sss-list li{margin-bottom:4px;}
 
     /* ── Steps list (How to Practice) ── */
-    .steps-list{display:flex;flex-direction:column;gap:14px;margin-top:6px;}
-    .step-item{display:flex;align-items:flex-start;gap:16px;background:rgba(255,255,255,0.06);border:1px solid rgba(100,200,160,0.2);border-radius:10px;padding:16px 20px;}
-    .step-num{min-width:36px;height:36px;background:#f5c842;color:#1a3a2a;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:1.1rem;flex-shrink:0;}
-    .step-body{font-family:'Caveat',cursive;font-size:1.4rem;color:#e0f0e8;line-height:1.5;}
+    .steps-list{display:flex;flex-direction:column;gap:16px;margin-top:6px;flex:1;}
+    .step-item{display:flex;align-items:center;gap:22px;background:rgba(255,255,255,0.06);border:1px solid rgba(100,200,160,0.2);border-radius:12px;padding:22px 28px;flex:1;}
+    .step-num{min-width:48px;height:48px;background:#f5c842;color:#1a3a2a;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:1.5rem;flex-shrink:0;}
+    .step-body{font-family:'Caveat',cursive;font-size:1.85rem;color:#e0f0e8;line-height:1.55;}
     .step-body strong{color:#f5c842;}
 
     /* ── Do's & Don'ts ── */
@@ -340,6 +340,310 @@ justify-content:center;gap:20px;}
     }
     .lock-btn:hover{background:#e8b800;}
     .lock-error{color:#f07070;font-family:'Caveat',cursive;font-size:1.1rem;min-height:1.4rem;}
+
+  
+    /* ═══ INTERACTIVE LETTER CARDS ═══ */
+    .stroke-card, .letter-group-card {
+      cursor: pointer;
+      transition: transform .18s, box-shadow .18s, border-color .18s;
+      position: relative;
+      overflow: hidden;
+    }
+    .stroke-card:hover, .letter-group-card:hover {
+      transform: translateY(-4px) scale(1.03);
+      box-shadow: 0 8px 28px rgba(0,0,0,0.45);
+      border-color: rgba(245,200,66,0.6);
+    }
+    .stroke-card.clicked, .letter-group-card.clicked {
+      border-color: #f5c842;
+      box-shadow: 0 0 22px rgba(245,200,66,0.35);
+    }
+
+    /* Ripple burst on click */
+    .card-ripple {
+      position: absolute;
+      border-radius: 50%;
+      width: 10px; height: 10px;
+      background: rgba(245,200,66,0.5);
+      transform: translate(-50%,-50%) scale(0);
+      animation: rippleBurst 0.5s ease-out forwards;
+      pointer-events: none;
+      z-index: 10;
+    }
+    @keyframes rippleBurst {
+      to { transform: translate(-50%,-50%) scale(20); opacity: 0; }
+    }
+
+    /* Animated stroke path shown on click */
+    .stroke-anim-overlay {
+      display: none;
+      position: absolute;
+      inset: 0;
+      align-items: center;
+      justify-content: center;
+      background: rgba(20,40,28,0.88);
+      z-index: 5;
+      flex-direction: column;
+      gap: 6px;
+      border-radius: 10px;
+    }
+    .stroke-card.showing-anim .stroke-anim-overlay,
+    .letter-group-card.showing-anim .stroke-anim-overlay {
+      display: flex;
+    }
+    .stroke-anim-overlay svg {
+      filter: drop-shadow(0 0 8px rgba(245,200,66,0.7));
+    }
+    .stroke-anim-overlay .anim-label {
+      font-family: 'Caveat', cursive;
+      font-size: 1.1rem;
+      color: #6dd5d5;
+      letter-spacing: 1px;
+    }
+    .anim-path {
+      stroke-dasharray: 300;
+      stroke-dashoffset: 300;
+      animation: drawPath 1.2s ease forwards;
+    }
+    @keyframes drawPath {
+      to { stroke-dashoffset: 0; }
+    }
+
+    /* Letter pop on hover inside group cards */
+    .lg-letters {
+      transition: letter-spacing .2s;
+    }
+    .letter-group-card:hover .lg-letters {
+      letter-spacing: 0.35em;
+    }
+
+    /* ═══ CHALK DUST FAIRY TRAIL ═══ */
+    .chalk-particle {
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      border-radius: 50%;
+      transform-origin: center;
+    }
+    @keyframes chalkFloat {
+      0%   { opacity: 1; transform: translate(0,0) scale(1) rotate(0deg); }
+      100% { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(0.2) rotate(var(--rot)); }
+    }
+
+    /* Nav button glow when hovered (for the fairy effect to look attached) */
+    .nav-btn {
+      position: relative;
+    }
+    .nav-btn:not(:disabled):hover {
+      box-shadow: 0 0 18px rgba(245,200,66,0.4);
+      border-color: rgba(245,200,66,0.55);
+    }
+    /* ═══ CLICK HINT on first visit ═══ */
+    .click-hint {
+      display: inline-block;
+      font-size: 0.9rem;
+      color: #6dd5d5;
+      background: rgba(109,213,213,0.12);
+      border: 1px dashed rgba(109,213,213,0.35);
+      border-radius: 20px;
+      padding: 4px 14px;
+      margin-top: 6px;
+      flex-shrink: 0;
+      text-align: center;
+      animation: hintPulse 2.5s ease-in-out infinite;
+    }
+    @keyframes hintPulse {
+      0%,100% { opacity: 0.6; }
+      50% { opacity: 1; }
+    }
+    .click-hint-hidden { display: none !important; }
+
+  
+    /* ═══ FINGER TRACE PRACTICE MODAL ═══ */
+    .trace-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 300;
+      background: rgba(10,22,14,0.97);
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 0;
+    }
+    .trace-modal.open { display: flex; }
+
+    .trace-header {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 20px;
+      background: rgba(255,255,255,0.04);
+      border-bottom: 1px solid rgba(245,240,232,0.1);
+      flex-shrink: 0;
+    }
+    .trace-title {
+      font-family: 'Caveat', cursive;
+      font-size: 1.6rem;
+      color: #f5c842;
+      font-weight: 700;
+    }
+    .trace-group-name {
+      font-family: 'Caveat', cursive;
+      font-size: 1.2rem;
+      color: #6dd5d5;
+    }
+    .trace-close-btn {
+      font-family: 'Caveat', cursive;
+      font-size: 1.1rem;
+      background: rgba(245,240,232,0.1);
+      border: 1.5px solid rgba(245,240,232,0.25);
+      color: #f5f0e8;
+      border-radius: 8px;
+      padding: 6px 18px;
+      cursor: pointer;
+    }
+    .trace-close-btn:hover { background: rgba(245,240,232,0.18); }
+
+    /* Canvas area */
+    .trace-canvas-wrap {
+      flex: 1;
+      width: 100%;
+      position: relative;
+      min-height: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .trace-ghost {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(80px, 14vw, 160px);
+      color: rgba(245,200,66,0.12);
+      letter-spacing: 0.3em;
+      user-select: none;
+      pointer-events: none;
+      text-shadow: 0 0 40px rgba(245,200,66,0.08);
+      padding: 0 20px;
+      text-align: center;
+      line-height: 1.3;
+    }
+    /* Ruled lines on canvas background */
+    .trace-canvas-wrap::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        repeating-linear-gradient(
+          transparent 0px, transparent 59px,
+          rgba(109,213,213,0.08) 59px, rgba(109,213,213,0.08) 61px
+        );
+      pointer-events: none;
+    }
+    /* Baseline highlight */
+    .trace-baseline {
+      position: absolute;
+      left: 0; right: 0;
+      height: 2px;
+      background: rgba(109,213,213,0.18);
+      pointer-events: none;
+    }
+    #trace-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      touch-action: none;
+      cursor: crosshair;
+    }
+
+    /* Bottom toolbar */
+    .trace-toolbar {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 20px;
+      background: rgba(255,255,255,0.04);
+      border-top: 1px solid rgba(245,240,232,0.1);
+      flex-shrink: 0;
+      gap: 12px;
+    }
+    .trace-tool-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .trace-tool-btn {
+      font-family: 'Caveat', cursive;
+      font-size: 1.1rem;
+      background: rgba(245,240,232,0.08);
+      border: 1.5px solid rgba(245,240,232,0.2);
+      color: #f5f0e8;
+      border-radius: 8px;
+      padding: 7px 18px;
+      cursor: pointer;
+      transition: .15s;
+      white-space: nowrap;
+    }
+    .trace-tool-btn:hover { background: rgba(245,240,232,0.16); }
+    .trace-tool-btn.active {
+      background: rgba(245,200,66,0.2);
+      border-color: #f5c842;
+      color: #f5c842;
+    }
+    .color-dot {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: transform .15s;
+    }
+    .color-dot:hover { transform: scale(1.2); }
+    .color-dot.active { border-color: #fff; transform: scale(1.15); }
+
+    .stroke-size-label {
+      font-family: 'Caveat', cursive;
+      font-size: 1rem;
+      color: rgba(245,240,232,0.5);
+      margin-right: 4px;
+    }
+    input[type=range].stroke-slider {
+      width: 80px;
+      accent-color: #f5c842;
+      cursor: pointer;
+    }
+    .trace-hint {
+      font-family: 'Caveat', cursive;
+      font-size: 1rem;
+      color: rgba(245,240,232,0.35);
+      text-align: center;
+    }
+
+    /* Tap-to-practice badge on letter group cards */
+    .practice-badge {
+      display: inline-block;
+      font-family: 'Patrick Hand', cursive;
+      font-size: 0.72rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #6dd5d5;
+      background: rgba(109,213,213,0.12);
+      border: 1px solid rgba(109,213,213,0.3);
+      border-radius: 20px;
+      padding: 2px 10px;
+      margin-top: 8px;
+      display: block;
+    }
+    .letter-group-card:hover .practice-badge {
+      background: rgba(109,213,213,0.22);
+    }
 
   </style>
 </head>
@@ -419,33 +723,70 @@ justify-content:center;gap:20px;}
     <div class="page-content lesson-page">
       <div class="pg-title">Start with Basic Strokes</div>
       <div class="pg-subtitle">Before writing full letters, practice these 6 fundamental strokes:</div>
+      <div class="click-hint" id="stroke-hint">👆 Tap a card to see the stroke animation</div>
       <div class="stroke-grid">
-        <div class="stroke-card">
+        <div class="stroke-card" onclick="cardClick(this)">
+          <div class="stroke-anim-overlay">
+          <svg width="100" height="100" viewBox="0 0 100 100">
+            <path class="anim-path" d="M50,80 L50,20" stroke="#f5c842" stroke-width="5" fill="none" stroke-linecap="round"/>
+          </svg>
+          <div class="anim-label">Upward stroke</div>
+        </div>
           <div class="stroke-symbol">i</div>
           <div class="stroke-name">Upstroke</div>
           <div class="stroke-desc">Start at baseline, stroke upward to midline — seen in <em>i, u, w</em></div>
         </div>
-        <div class="stroke-card">
+        <div class="stroke-card" onclick="cardClick(this)">
+          <div class="stroke-anim-overlay">
+          <svg width="100" height="100" viewBox="0 0 100 100">
+            <path class="anim-path" d="M25,25 Q25,75 50,75 Q75,75 75,25" stroke="#f5c842" stroke-width="5" fill="none" stroke-linecap="round"/>
+          </svg>
+          <div class="anim-label">Undercurve</div>
+        </div>
           <div class="stroke-symbol">u</div>
           <div class="stroke-name">Undercurve</div>
           <div class="stroke-desc">Cup shape at the bottom — seen in <em>u, e, s</em></div>
         </div>
-        <div class="stroke-card">
+        <div class="stroke-card" onclick="cardClick(this)">
+          <div class="stroke-anim-overlay">
+          <svg width="100" height="100" viewBox="0 0 100 100">
+            <path class="anim-path" d="M50,15 L50,85" stroke="#f5c842" stroke-width="5" fill="none" stroke-linecap="round"/>
+          </svg>
+          <div class="anim-label">Downstroke</div>
+        </div>
           <div class="stroke-symbol">l</div>
           <div class="stroke-name">Downstroke</div>
           <div class="stroke-desc">Pull straight down from top — seen in <em>l, t, p</em></div>
         </div>
-        <div class="stroke-card">
+        <div class="stroke-card" onclick="cardClick(this)">
+          <div class="stroke-anim-overlay">
+          <svg width="100" height="100" viewBox="0 0 100 100">
+            <path class="anim-path" d="M35,80 L35,30 Q35,10 55,20 Q70,28 65,50 L65,80" stroke="#f5c842" stroke-width="5" fill="none" stroke-linecap="round"/>
+          </svg>
+          <div class="anim-label">Loop stroke</div>
+        </div>
           <div class="stroke-symbol">h</div>
           <div class="stroke-name">Loop</div>
           <div class="stroke-desc">Oval loop going up or down — seen in <em>h, b, k, f</em></div>
         </div>
-        <div class="stroke-card">
+        <div class="stroke-card" onclick="cardClick(this)">
+          <div class="stroke-anim-overlay">
+          <svg width="100" height="100" viewBox="0 0 100 100">
+            <path class="anim-path" d="M25,75 Q30,25 50,35 Q70,45 70,75" stroke="#f5c842" stroke-width="5" fill="none" stroke-linecap="round"/>
+          </svg>
+          <div class="anim-label">Overcurve</div>
+        </div>
           <div class="stroke-symbol">n</div>
           <div class="stroke-name">Overcurve</div>
           <div class="stroke-desc">Arc curving over the top — seen in <em>n, m, v, y</em></div>
         </div>
-        <div class="stroke-card">
+        <div class="stroke-card" onclick="cardClick(this)">
+          <div class="stroke-anim-overlay">
+          <svg width="100" height="100" viewBox="0 0 100 100">
+            <path class="anim-path" d="M20,80 Q35,50 60,35 Q75,20 80,20" stroke="#f5c842" stroke-width="5" fill="none" stroke-linecap="round"/>
+          </svg>
+          <div class="anim-label">Connector</div>
+        </div>
           <div class="stroke-symbol">an</div>
           <div class="stroke-name">Connector</div>
           <div class="stroke-desc">Diagonal line joining one letter to the next</div>
@@ -534,9 +875,9 @@ justify-content:center;gap:20px;}
 
   <!-- PAGE 8: SIZING, SLANT, SPACING (Slide 7) -->
   <div class="page" id="p8">
-    <div class="page-content lesson-page">
-      <div class="pg-title">Sizing, Slant, and Spacing</div>
-      <div class="sss-grid">
+    <div class="page-content lesson-page" style="gap:14px;">
+      <div class="pg-title" style="margin-bottom:4px;">Sizing, Slant, and Spacing</div>
+      <div class="sss-grid" style="flex:1;">
         <div class="sss-card">
           <div class="sss-icon">📐</div>
           <div class="sss-heading">Consistent Sizing</div>
@@ -821,6 +1162,352 @@ function checkLock(i){
   return false;
 }
 
+
+
+/* ═══ CLICKABLE CARD INTERACTIONS ═══ */
+function cardClick(card) {
+  // Ripple effect
+  const rect = card.getBoundingClientRect();
+  const ripple = document.createElement('div');
+  ripple.className = 'card-ripple';
+  ripple.style.left = (rect.width/2)+'px';
+  ripple.style.top = (rect.height/2)+'px';
+  card.appendChild(ripple);
+  setTimeout(()=>ripple.remove(), 600);
+
+  // Toggle animation overlay
+  const isShowing = card.classList.contains('showing-anim');
+  // Close all others first
+  document.querySelectorAll('.showing-anim').forEach(c=>{
+    c.classList.remove('showing-anim', 'clicked');
+    // Re-trigger animation on re-open
+    const paths = c.querySelectorAll('.anim-path');
+    paths.forEach(p=>{ const d=p.style.animationDuration; p.style.animation='none'; p.offsetWidth; p.style.animation=''; });
+  });
+
+  if(!isShowing){
+    card.classList.add('showing-anim', 'clicked');
+    // Re-trigger CSS animation
+    const paths = card.querySelectorAll('.anim-path');
+    paths.forEach(p=>{
+      p.style.animation='none';
+      p.offsetWidth; // reflow
+      p.style.animation='drawPath 1.2s ease forwards';
+    });
+    // Hide hint after first use
+    const hint = document.getElementById('stroke-hint');
+    if(hint) hint.classList.add('click-hint-hidden');
+  }
+
+  // Click outside to close
+  setTimeout(()=>{
+    function outsideClose(e){
+      if(!card.contains(e.target)){
+        card.classList.remove('showing-anim','clicked');
+        document.removeEventListener('click', outsideClose);
+      }
+    }
+    document.addEventListener('click', outsideClose);
+  }, 10);
+}
+
+/* ═══ CHALK DUST FAIRY TRAIL ═══ */
+const CHALK_COLORS = [
+  '#f5f0e8','#f5c842','#6dd5d5','#c8e6d8',
+  '#ffffff','#ffe08a','#a8d8c8','#d4c9b0'
+];
+
+function spawnChalk(x, y) {
+  const count = 6 + Math.floor(Math.random()*5);
+  for(let i=0; i<count; i++){
+    const el = document.createElement('div');
+    el.className = 'chalk-particle';
+    const size = 3 + Math.random()*6;
+    el.style.cssText = `
+      width:${size}px;height:${size}px;
+      left:${x + (Math.random()-0.5)*24}px;
+      top:${y + (Math.random()-0.5)*24}px;
+      background:${CHALK_COLORS[Math.floor(Math.random()*CHALK_COLORS.length)]};
+      opacity:0.9;
+      --dx:${(Math.random()-0.5)*60}px;
+      --dy:${-20 - Math.random()*50}px;
+      --rot:${(Math.random()-0.5)*360}deg;
+      animation:chalkFloat ${0.5+Math.random()*0.7}s ease-out forwards;
+    `;
+    document.body.appendChild(el);
+    el.addEventListener('animationend', ()=>el.remove());
+  }
+}
+
+// Fairy trail on nav button press
+function attachFairyToBtn(btn) {
+  let intervalId = null;
+  btn.addEventListener('mouseenter', function(e){
+    const rect = btn.getBoundingClientRect();
+    intervalId = setInterval(()=>{
+      if(!btn.disabled){
+        const cx = rect.left + rect.width/2 + (Math.random()-0.5)*rect.width*0.6;
+        const cy = rect.top + rect.height/2 + (Math.random()-0.5)*rect.height*0.5;
+        spawnChalk(cx, cy);
+      }
+    }, 55);
+  });
+  btn.addEventListener('mouseleave', function(){
+    clearInterval(intervalId);
+  });
+  btn.addEventListener('click', function(e){
+    const rect = btn.getBoundingClientRect();
+    // burst on click
+    for(let b=0;b<3;b++){
+      setTimeout(()=>{
+        spawnChalk(
+          rect.left + rect.width/2 + (Math.random()-0.5)*20,
+          rect.top + rect.height/2
+        );
+      }, b*60);
+    }
+  });
+}
+
+// Attach to both nav buttons
+window.addEventListener('DOMContentLoaded', ()=>{
+  document.querySelectorAll('.nav-btn').forEach(attachFairyToBtn);
+});
+
+
+
+/* ═══════════════════════════════════════
+   FINGER TRACE PRACTICE MODAL
+   ═══════════════════════════════════════ */
+(function(){
+  // All DOM lookups deferred — elements may not exist yet at script parse time
+  var modal, canvas, ghost, groupName, wrap, baseline, ctx;
+
+  var drawing  = false;
+  var erasing  = false;
+  var penColor = '#f5f0e8';
+  var penSize  = 6;
+  var lastX, lastY;
+
+  function getEls(){
+    if(ctx) return true; // already resolved
+    modal     = document.getElementById('trace-modal');
+    canvas    = document.getElementById('trace-canvas');
+    ghost     = document.getElementById('trace-ghost');
+    groupName = document.getElementById('trace-group-name');
+    wrap      = document.getElementById('trace-canvas-wrap');
+    baseline  = document.getElementById('trace-baseline');
+    if(!canvas) return false;
+    ctx = canvas.getContext('2d');
+    attachCanvasEvents();
+    return true;
+  }
+
+  function resizeCanvas(){
+    if(!wrap || !canvas) return;
+    var r = wrap.getBoundingClientRect();
+    canvas.width  = r.width;
+    canvas.height = r.height;
+    if(baseline) baseline.style.top = Math.round(r.height * 0.65) + 'px';
+  }
+
+  /* Open */
+  window.openTrace = function(letters, label){
+    if(!getEls()) return;
+    ghost.textContent = letters;
+    groupName.textContent = label;
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    setTimeout(function(){
+      resizeCanvas();
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }, 60);
+  };
+
+  /* Close */
+  window.closeTrace = function(){
+    if(!modal) return;
+    modal.classList.remove('open');
+    document.body.style.overflow = '';
+  };
+
+  window.addEventListener('resize', function(){
+    if(modal && modal.classList.contains('open')) resizeCanvas();
+  });
+  // Try resolving after DOM is fully ready
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', getEls);
+  } else {
+    getEls();
+  }
+
+  /* Drawing helpers */
+  function getPos(e){
+    var r = canvas.getBoundingClientRect();
+    if(e.touches && e.touches.length){
+      return { x: e.touches[0].clientX - r.left, y: e.touches[0].clientY - r.top };
+    }
+    return { x: e.clientX - r.left, y: e.clientY - r.top };
+  }
+
+  function startDraw(e){
+    e.preventDefault();
+    drawing = true;
+    var p = getPos(e); lastX = p.x; lastY = p.y;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, erasing ? penSize*3 : penSize/2, 0, Math.PI*2);
+    ctx.fillStyle = erasing ? 'rgba(10,22,14,1)' : penColor;
+    ctx.globalCompositeOperation = erasing ? 'destination-out' : 'source-over';
+    ctx.fill();
+    ctx.globalCompositeOperation = 'source-over';
+  }
+
+  function doDraw(e){
+    e.preventDefault();
+    if(!drawing) return;
+    var p = getPos(e);
+    ctx.globalCompositeOperation = erasing ? 'destination-out' : 'source-over';
+    ctx.beginPath();
+    ctx.moveTo(lastX, lastY);
+    ctx.lineTo(p.x, p.y);
+    ctx.strokeStyle = erasing ? 'rgba(10,22,14,1)' : penColor;
+    ctx.lineWidth   = erasing ? penSize * 5 : penSize;
+    ctx.lineCap     = 'round';
+    ctx.lineJoin    = 'round';
+    ctx.stroke();
+    if(!erasing && Math.random() < 0.25){
+      ctx.globalAlpha = 0.35;
+      ctx.beginPath();
+      ctx.arc(p.x+(Math.random()-0.5)*5, p.y+(Math.random()-0.5)*5, penSize*0.35, 0, Math.PI*2);
+      ctx.fillStyle = penColor;
+      ctx.fill();
+      ctx.globalAlpha = 1;
+    }
+    ctx.globalCompositeOperation = 'source-over';
+    lastX = p.x; lastY = p.y;
+  }
+
+  function endDraw(){ drawing = false; }
+
+  function attachCanvasEvents(){
+    canvas.addEventListener('pointerdown',  startDraw, {passive:false});
+    canvas.addEventListener('pointermove',  doDraw,    {passive:false});
+    canvas.addEventListener('pointerup',    endDraw);
+    canvas.addEventListener('pointerleave', endDraw);
+    canvas.addEventListener('touchstart',   startDraw, {passive:false});
+    canvas.addEventListener('touchmove',    doDraw,    {passive:false});
+    canvas.addEventListener('touchend',     endDraw);
+  }
+
+  /* Toolbar controls */
+  window.clearCanvas = function(){
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  };
+
+  window.toggleEraser = function(){
+    erasing = !erasing;
+    var btn = document.getElementById('eraser-btn');
+    if(btn){ btn.classList.toggle('active', erasing); btn.textContent = erasing ? '✏️ Pen' : '⌫ Eraser'; }
+  };
+
+  window.setColor = function(dot){
+    document.querySelectorAll('.color-dot').forEach(function(d){ d.classList.remove('active'); });
+    dot.classList.add('active');
+    penColor = dot.dataset.color;
+    erasing  = false;
+    var btn = document.getElementById('eraser-btn');
+    if(btn){ btn.classList.remove('active'); btn.textContent = '⌫ Eraser'; }
+  };
+
+  window.updateSize = function(val){ penSize = parseInt(val); };
+
+  window.toggleGhost = function(){
+    var on  = ghost.style.opacity !== '0';
+    ghost.style.opacity = on ? '0' : '1';
+    var btn = document.getElementById('ghost-btn');
+    if(btn){ btn.classList.toggle('active', !on); btn.textContent = on ? '👁 Show Guide' : '👁 Hide Guide'; }
+  };
+
+  /* Wire up letter-group-cards */
+  function initTraceCards(){
+    document.querySelectorAll('.letter-group-card').forEach(function(card){
+      if(card.dataset.traceReady) return;
+      card.dataset.traceReady = '1';
+
+      var lettersEl = card.querySelector('.lg-letters');
+      var labelEl   = card.querySelector('.lg-label');
+      if(!lettersEl || !labelEl) return;
+
+      var letters = lettersEl.textContent.trim();
+      var label   = labelEl.textContent.trim();
+
+      if(!card.querySelector('.practice-badge')){
+        var badge = document.createElement('span');
+        badge.className   = 'practice-badge';
+        badge.textContent = '✍️ Tap to practice';
+        card.appendChild(badge);
+      }
+
+      card.style.cursor = 'pointer';
+      card.onclick = function(e){
+        e.stopPropagation();
+        window.openTrace(letters, label);
+      };
+    });
+  }
+
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', initTraceCards);
+  } else {
+    initTraceCards();
+  }
+
+})();
+
 </script>
+
+<!-- ═══ FINGER TRACE PRACTICE MODAL ═══ -->
+<div class="trace-modal" id="trace-modal">
+  <div class="trace-header">
+    <div>
+      <div class="trace-title">✍️ Finger Trace Practice</div>
+      <div class="trace-group-name" id="trace-group-name"></div>
+    </div>
+    <button class="trace-close-btn" onclick="closeTrace()">✕ Close</button>
+  </div>
+
+  <div class="trace-canvas-wrap" id="trace-canvas-wrap">
+    <div class="trace-ghost" id="trace-ghost"></div>
+    <div class="trace-baseline" id="trace-baseline"></div>
+    <canvas id="trace-canvas"></canvas>
+  </div>
+
+  <div class="trace-toolbar">
+    <!-- Left: color palette -->
+    <div class="trace-tool-group">
+      <span class="stroke-size-label">Color:</span>
+      <div class="color-dot active" style="background:#f5f0e8" data-color="#f5f0e8" onclick="setColor(this)" title="White chalk"></div>
+      <div class="color-dot" style="background:#f5c842" data-color="#f5c842" onclick="setColor(this)" title="Gold"></div>
+      <div class="color-dot" style="background:#6dd5d5" data-color="#6dd5d5" onclick="setColor(this)" title="Teal"></div>
+      <div class="color-dot" style="background:#f07070" data-color="#f07070" onclick="setColor(this)" title="Red (corrections)"></div>
+    </div>
+
+    <!-- Center: size + eraser -->
+    <div class="trace-tool-group">
+      <span class="stroke-size-label">Size:</span>
+      <input type="range" class="stroke-slider" id="stroke-size" min="2" max="18" value="5" oninput="updateSize(this.value)">
+      <button class="trace-tool-btn" id="eraser-btn" onclick="toggleEraser()">⌫ Eraser</button>
+      <button class="trace-tool-btn" onclick="clearCanvas()">🗑 Clear</button>
+    </div>
+
+    <!-- Right: ghost toggle -->
+    <div class="trace-tool-group">
+      <button class="trace-tool-btn active" id="ghost-btn" onclick="toggleGhost()">👁 Show Guide</button>
+      <div class="trace-hint">Trace the faint letters with your finger</div>
+    </div>
+  </div>
+</div>
+
+
 </body>
 </html>
