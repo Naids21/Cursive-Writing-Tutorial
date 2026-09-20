@@ -275,11 +275,11 @@ justify-content:center;gap:20px;}
     .step-body strong{color:#f5c842;}
 
     /* ── Do's & Don'ts ── */
-    .dos-donts-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:6px;}
-    .dd-header{font-family:'Caveat',cursive;font-size:1.6rem;font-weight:700;padding:8px 0;margin-bottom:10px;}
+    .dos-donts-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:16px;}
+    .dd-header{font-family:'Caveat',cursive;font-size:2rem;font-weight:700;padding:10px 0;margin-bottom:16px;}
     .dd-do{color:#6ddc8a;}
     .dd-dont{color:#f07070;}
-    .dd-list{margin:0;padding-left:18px;font-size:1.1rem;color:#c8e6d8;line-height:2;}
+    .dd-list{margin:0;padding-left:20px;font-size:1.45rem;color:#c8e6d8;line-height:2.2;}
 
   
     .nav-dots{display:flex;gap:6px;align-items:center;}
@@ -290,11 +290,13 @@ justify-content:center;gap:20px;}
   
     /* ── Teacher Lock ── */
     .lock-overlay{
-      position:absolute;inset:0;z-index:50;
-      background:rgba(20,40,25,0.92);
+      position:fixed;top:0;left:0;right:0;bottom:64px;z-index:200;
+      background:rgba(15,28,18,0.97);
       display:flex;flex-direction:column;align-items:center;justify-content:center;
-      gap:24px;
+      gap:28px;
     }
+    .lock-overlay.hidden{display:none;}
+    .page:not(.active) .lock-overlay{display:none;}
     .lock-stamp{
       display:inline-block;
       border:5px solid #c0392b;
@@ -346,6 +348,25 @@ justify-content:center;gap:20px;}
 <div class="pages">
 
   <!-- PAGE 1: COVER -->
+    <!-- TEACHER LOCK OVERLAY -->
+  <div class="lock-overlay hidden" id="teacher-lock">
+      <svg width="0" height="0" style="position:absolute">
+        <defs>
+          <filter id="grunge-stamp" x="-10%" y="-10%" width="120%" height="120%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch" result="noise"/>
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="4" xChannelSelector="R" yChannelSelector="G"/>
+          </filter>
+        </defs>
+      </svg>
+      <div class="lock-stamp" style="filter:url(#grunge-stamp)">🔒 TEACHERS ONLY</div>
+      <div class="lock-prompt">This section is for teachers.<br>Enter the password to continue.</div>
+      <div class="lock-input-row">
+        <input class="lock-input" type="password" placeholder="Password" id="teacher-pw" onkeydown="if(event.key==='Enter')unlockTeacher()"/>
+        <button class="lock-btn" onclick="unlockTeacher()">Unlock</button>
+      </div>
+      <div class="lock-error" id="teacher-err"></div>
+  </div>
+
   <div class="page active" id="p1">
     <div class="page-content">
       <div class="cover-label">Grade 9 English</div>
@@ -651,17 +672,7 @@ justify-content:center;gap:20px;}
 
   <!-- PAGE 5: INTRO & MODELING -->
   <!-- PAGE 5: INTRO & MODELING -->
-  <div class="page" id="p13" style="position:relative;">
-    <div class="lock-overlay" id="lock-p13">
-      <svg width="0" height="0" style="position:absolute">
-        <defs>
-          <filter id="grunge-p13" x="-5%" y="-5%" width="110%" height="110%">
-            <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch" result="noise"/>
-            <feDisplacementMap in="SourceGraphic" in2="noise" scale="3" xChannelSelector="R" yChannelSelector="G"/>
-          </filter>
-        </defs>
-      </svg>
-      <div class="lock-stamp" style="filter:url(#grunge-p13)">🔒 TEACHERS ONLY</div>
+  <div class="page" id="p13">
       <div class="lock-prompt">Enter the teacher password to view this section.</div>
       <div class="lock-input-row">
         <input class="lock-input" type="password" placeholder="Password" id="pw-p13" onkeydown="if(event.key==='Enter')unlock('p13')"/>
@@ -691,17 +702,7 @@ justify-content:center;gap:20px;}
   </div>
 
   <!-- PAGE 6: GUIDED PRACTICE -->
-  <div class="page" id="p14" style="position:relative;">
-    <div class="lock-overlay" id="lock-p14">
-      <svg width="0" height="0" style="position:absolute">
-        <defs>
-          <filter id="grunge-p14" x="-5%" y="-5%" width="110%" height="110%">
-            <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch" result="noise"/>
-            <feDisplacementMap in="SourceGraphic" in2="noise" scale="3" xChannelSelector="R" yChannelSelector="G"/>
-          </filter>
-        </defs>
-      </svg>
-      <div class="lock-stamp" style="filter:url(#grunge-p14)">🔒 TEACHERS ONLY</div>
+  <div class="page" id="p14">
       <div class="lock-prompt">Enter the teacher password to view this section.</div>
       <div class="lock-input-row">
         <input class="lock-input" type="password" placeholder="Password" id="pw-p14" onkeydown="if(event.key==='Enter')unlock('p14')"/>
@@ -735,17 +736,7 @@ justify-content:center;gap:20px;}
   </div>
 
   <!-- PAGE 7: REVIEW & WARM-UP -->
-  <div class="page" id="p15" style="position:relative;">
-    <div class="lock-overlay" id="lock-p15">
-      <svg width="0" height="0" style="position:absolute">
-        <defs>
-          <filter id="grunge-p15" x="-5%" y="-5%" width="110%" height="110%">
-            <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch" result="noise"/>
-            <feDisplacementMap in="SourceGraphic" in2="noise" scale="3" xChannelSelector="R" yChannelSelector="G"/>
-          </filter>
-        </defs>
-      </svg>
-      <div class="lock-stamp" style="filter:url(#grunge-p15)">🔒 TEACHERS ONLY</div>
+  <div class="page" id="p15">
       <div class="lock-prompt">Enter the teacher password to view this section.</div>
       <div class="lock-input-row">
         <input class="lock-input" type="password" placeholder="Password" id="pw-p15" onkeydown="if(event.key==='Enter')unlock('p15')"/>
@@ -796,6 +787,7 @@ function goTo(i){
   document.getElementById('pc').textContent=(cur+1)+' / '+pages.length;
   document.getElementById('prev').disabled=cur===0;
   document.getElementById('next').disabled=cur===pages.length-1;
+  checkLock(i);
 }
 function go(d){if(cur+d>=0&&cur+d<pages.length)goTo(cur+d);}
 document.addEventListener('keydown',e=>{
@@ -804,14 +796,29 @@ document.addEventListener('keydown',e=>{
 });
 
 const TEACHER_PW = 'litteach2024';
-function unlock(pid){
-  const val = document.getElementById('pw-'+pid).value;
+const LOCKED_PAGES = [12, 13, 14]; // 0-indexed: pages 13, 14, 15
+let teacherUnlocked = false;
+
+function unlockTeacher(){
+  const val = document.getElementById('teacher-pw').value;
   if(val === TEACHER_PW){
-    document.getElementById('lock-'+pid).style.display='none';
+    teacherUnlocked = true;
+    document.getElementById('teacher-lock').classList.add('hidden');
   } else {
-    document.getElementById('err-'+pid).textContent='Incorrect password. Try again.';
-    document.getElementById('pw-'+pid).value='';
+    document.getElementById('teacher-err').textContent = 'Incorrect password. Try again.';
+    document.getElementById('teacher-pw').value = '';
   }
+}
+
+function checkLock(i){
+  if(LOCKED_PAGES.includes(i) && !teacherUnlocked){
+    const lock = document.getElementById('teacher-lock');
+    lock.classList.remove('hidden');
+    setTimeout(()=>document.getElementById('teacher-pw').focus(), 50);
+    return true;
+  }
+  document.getElementById('teacher-lock').classList.add('hidden');
+  return false;
 }
 
 </script>
