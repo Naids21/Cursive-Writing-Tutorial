@@ -24,75 +24,115 @@ body{
   display:flex;flex-direction:column;
   opacity:0;pointer-events:none;
   overflow:hidden;
-  transform:translateX(60px);
-  transition:opacity 0.38s cubic-bezier(.4,0,.2,1),
-             transform 0.38s cubic-bezier(.4,0,.2,1);
+  transform:translateX(55px) scale(0.97);
+  transition:opacity 0.42s cubic-bezier(.4,0,.2,1),
+             transform 0.42s cubic-bezier(.4,0,.2,1);
   will-change:transform,opacity;
 }
 .page.active{
   opacity:1;pointer-events:all;
-  transform:translateX(0);
+  transform:translateX(0) scale(1);
 }
-/* Slide out to the LEFT when going forward */
 .page.exit-left{
   opacity:0;
-  transform:translateX(-60px);
+  transform:translateX(-55px) scale(0.97);
   pointer-events:none;
 }
-/* Slide out to the RIGHT when going backward */
 .page.exit-right{
   opacity:0;
-  transform:translateX(60px);
+  transform:translateX(55px) scale(0.97);
   pointer-events:none;
 }
-/* Enter from RIGHT when going forward */
 .page.enter-right{
-  transform:translateX(60px);
+  transform:translateX(55px) scale(0.97);
   opacity:0;
 }
-/* Enter from LEFT when going backward */
 .page.enter-left{
-  transform:translateX(-60px);
+  transform:translateX(-55px) scale(0.97);
   opacity:0;
 }
 
 /* ── Content entrance animations ── */
 @keyframes fadeUp{
-  from{opacity:0;transform:translateY(22px);}
+  from{opacity:0;transform:translateY(28px);}
   to{opacity:1;transform:translateY(0);}
 }
 @keyframes fadeIn{
   from{opacity:0;}
   to{opacity:1;}
 }
+@keyframes popIn{
+  from{opacity:0;transform:scale(0.88) translateY(16px);}
+  to{opacity:1;transform:scale(1) translateY(0);}
+}
+@keyframes slideInLeft{
+  from{opacity:0;transform:translateX(-32px);}
+  to{opacity:1;transform:translateX(0);}
+}
+@keyframes slideInRight{
+  from{opacity:0;transform:translateX(32px);}
+  to{opacity:1;transform:translateX(0);}
+}
+
+/* Page label */
+.page.active .pg-label{
+  animation:slideInLeft .4s cubic-bezier(.4,0,.2,1) both;
+}
+/* Title */
 .page.active .pg-title{
-  animation:fadeUp .45s cubic-bezier(.4,0,.2,1) both;
+  animation:fadeUp .5s .06s cubic-bezier(.34,1.3,.64,1) both;
 }
+/* Subtitle */
 .page.active .pg-subtitle{
-  animation:fadeUp .45s .07s cubic-bezier(.4,0,.2,1) both;
+  animation:fadeUp .4s .14s cubic-bezier(.4,0,.2,1) both;
 }
-.page.active .stroke-grid,
-.page.active .letter-group-grid,
-.page.active .sss-grid,
-.page.active .steps-list,
-.page.active .dos-donts-grid,
-.page.active .lesson-list,
-.page.active .sheet-dual,
-.page.active .task-header-row,
-.page.active .task-para,
-.page.active .vplayer{
-  animation:fadeUp .48s .1s cubic-bezier(.4,0,.2,1) both;
+/* Hint badge */
+.page.active .click-hint{
+  animation:fadeIn .5s .18s ease both;
 }
-.page.active .lesson-tip,
-.page.active .sheet-note,
-.page.active .warmup-label,
-.page.active .click-hint,
-.page.active .cover-sub{
-  animation:fadeUp .45s .2s cubic-bezier(.4,0,.2,1) both;
-}
-.page.active .write-lines{
-  animation:fadeIn .5s .25s ease both;
-}
+
+/* Cards — staggered children */
+.page.active .stroke-grid .stroke-card:nth-child(1){ animation:popIn .4s .12s cubic-bezier(.34,1.2,.64,1) both; }
+.page.active .stroke-grid .stroke-card:nth-child(2){ animation:popIn .4s .19s cubic-bezier(.34,1.2,.64,1) both; }
+.page.active .stroke-grid .stroke-card:nth-child(3){ animation:popIn .4s .26s cubic-bezier(.34,1.2,.64,1) both; }
+.page.active .stroke-grid .stroke-card:nth-child(4){ animation:popIn .4s .33s cubic-bezier(.34,1.2,.64,1) both; }
+.page.active .stroke-grid .stroke-card:nth-child(5){ animation:popIn .4s .40s cubic-bezier(.34,1.2,.64,1) both; }
+.page.active .stroke-grid .stroke-card:nth-child(6){ animation:popIn .4s .47s cubic-bezier(.34,1.2,.64,1) both; }
+
+.page.active .letter-group-grid .letter-group-card:nth-child(1){ animation:popIn .42s .12s cubic-bezier(.34,1.2,.64,1) both; }
+.page.active .letter-group-grid .letter-group-card:nth-child(2){ animation:popIn .42s .22s cubic-bezier(.34,1.2,.64,1) both; }
+.page.active .letter-group-grid .letter-group-card:nth-child(3){ animation:popIn .42s .32s cubic-bezier(.34,1.2,.64,1) both; }
+.page.active .letter-group-grid .letter-group-card:nth-child(4){ animation:popIn .42s .42s cubic-bezier(.34,1.2,.64,1) both; }
+
+.page.active .sss-grid .sss-card:nth-child(1){ animation:popIn .42s .12s cubic-bezier(.34,1.2,.64,1) both; }
+.page.active .sss-grid .sss-card:nth-child(2){ animation:popIn .42s .22s cubic-bezier(.34,1.2,.64,1) both; }
+.page.active .sss-grid .sss-card:nth-child(3){ animation:popIn .42s .32s cubic-bezier(.34,1.2,.64,1) both; }
+
+.page.active .steps-list .step-item:nth-child(1){ animation:slideInLeft .42s .10s cubic-bezier(.4,0,.2,1) both; }
+.page.active .steps-list .step-item:nth-child(2){ animation:slideInLeft .42s .20s cubic-bezier(.4,0,.2,1) both; }
+.page.active .steps-list .step-item:nth-child(3){ animation:slideInLeft .42s .30s cubic-bezier(.4,0,.2,1) both; }
+.page.active .steps-list .step-item:nth-child(4){ animation:slideInLeft .42s .40s cubic-bezier(.4,0,.2,1) both; }
+
+.page.active .lesson-list .lesson-item:nth-child(1){ animation:slideInLeft .4s .10s cubic-bezier(.4,0,.2,1) both; }
+.page.active .lesson-list .lesson-item:nth-child(2){ animation:slideInLeft .4s .20s cubic-bezier(.4,0,.2,1) both; }
+.page.active .lesson-list .lesson-item:nth-child(3){ animation:slideInLeft .4s .30s cubic-bezier(.4,0,.2,1) both; }
+.page.active .lesson-list .lesson-item:nth-child(4){ animation:slideInLeft .4s .40s cubic-bezier(.4,0,.2,1) both; }
+
+.page.active .dos-donts-grid > div:nth-child(1){ animation:slideInLeft  .45s .12s cubic-bezier(.4,0,.2,1) both; }
+.page.active .dos-donts-grid > div:nth-child(2){ animation:slideInRight .45s .22s cubic-bezier(.4,0,.2,1) both; }
+
+.page.active .vplayer{ animation:fadeUp .5s .10s cubic-bezier(.4,0,.2,1) both; }
+.page.active .vnote{   animation:fadeUp .4s .28s cubic-bezier(.4,0,.2,1) both; }
+
+.page.active .sheet-dual{   animation:fadeUp .5s .10s cubic-bezier(.4,0,.2,1) both; }
+.page.active .sheet-note{   animation:fadeUp .4s .28s cubic-bezier(.4,0,.2,1) both; }
+
+.page.active .task-header-row{ animation:fadeUp .45s .08s cubic-bezier(.4,0,.2,1) both; }
+.page.active .task-para{       animation:fadeUp .45s .18s cubic-bezier(.4,0,.2,1) both; }
+.page.active .warmup-label{    animation:fadeIn .4s .28s ease both; }
+.page.active .write-lines{     animation:fadeIn .5s .34s ease both; }
+
+.page.active .lesson-tip{ animation:fadeUp .4s .45s cubic-bezier(.4,0,.2,1) both; }
 
 /* RULED LINES overlay */
 .page::before{
@@ -409,7 +449,9 @@ justify-content:center;gap:20px;}
 /* ─── LESSON PAGES (5, 6, 7) ─── */
 .lesson-page{display:flex;flex-direction:column;gap:22px;padding:36px 48px 90px}
 .lesson-list{display:flex;flex-direction:column;gap:16px;flex:1}
-.lesson-item{display:flex;gap:16px;align-items:flex-start;background:rgba(255,255,255,.06);border-radius:10px;padding:18px 20px;border-left:3px solid #f5c842}
+.lesson-item{display:flex;gap:16px;align-items:flex-start;background:rgba(255,255,255,.06);border-radius:10px;padding:18px 20px;border-left:3px solid #f5c842;
+  transition:transform .2s, box-shadow .2s;}
+.lesson-item:hover{transform:translateX(4px);box-shadow:0 4px 20px rgba(0,0,0,0.3);}
 .lesson-icon{color:#f5c842;font-size:1.3rem;margin-top:2px;flex-shrink:0}
 .lesson-text{color:#e8e4d4;font-family:'Caveat',cursive;font-size:1.5rem;line-height:1.55}
 .lesson-text strong{color:#f5c842}
@@ -419,6 +461,7 @@ justify-content:center;gap:20px;}
 .pg-label{
   font-size:22px;color:#6dd5d5;letter-spacing:1px;
   margin-bottom:4px;flex-shrink:0;
+  position:relative;display:inline-block;
 }
 .pg-title{
   font-size:clamp(36px,6vw,60px);font-weight:700;
@@ -446,7 +489,9 @@ justify-content:center;gap:20px;}
 
     /* ── Sizing/Slant/Spacing grid ── */
     .sss-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:6px;flex:1;min-height:0;}
-    .sss-card{background:rgba(255,255,255,0.07);border:1px solid rgba(100,200,160,0.25);border-radius:12px;padding:28px 26px;display:flex;flex-direction:column;}
+    .sss-card{background:rgba(255,255,255,0.07);border:1px solid rgba(100,200,160,0.25);border-radius:12px;padding:28px 26px;display:flex;flex-direction:column;
+  transition:transform .22s cubic-bezier(.34,1.2,.64,1), box-shadow .22s, border-color .22s;}
+.sss-card:hover{transform:translateY(-6px) scale(1.02);box-shadow:0 12px 32px rgba(0,0,0,0.4);border-color:rgba(245,200,66,0.45);}
     .sss-icon{font-size:2.8rem;margin-bottom:12px;}
     .sss-heading{font-family:'Caveat',cursive;font-size:2rem;color:#f5c842;font-weight:700;margin-bottom:14px;}
     .sss-list{margin:0;padding-left:22px;font-size:1.5rem;color:#c8e6d8;line-height:2.1;flex:1;}
@@ -454,8 +499,13 @@ justify-content:center;gap:20px;}
 
     /* ── Steps list (How to Practice) ── */
     .steps-list{display:flex;flex-direction:column;gap:16px;margin-top:6px;flex:1;}
-    .step-item{display:flex;align-items:center;gap:22px;background:rgba(255,255,255,0.06);border:1px solid rgba(100,200,160,0.2);border-radius:12px;padding:22px 28px;flex:1;}
-    .step-num{min-width:48px;height:48px;background:#f5c842;color:#1a3a2a;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:1.5rem;flex-shrink:0;}
+    .step-item{display:flex;align-items:center;gap:22px;background:rgba(255,255,255,0.06);border:1px solid rgba(100,200,160,0.2);border-radius:12px;padding:22px 28px;flex:1;
+  transition:transform .2s cubic-bezier(.34,1.2,.64,1), box-shadow .2s, border-color .2s;}
+.step-item:hover{transform:translateX(6px) scale(1.01);box-shadow:0 6px 24px rgba(0,0,0,0.35);border-color:rgba(245,200,66,0.4);}
+    .step-num{min-width:48px;height:48px;background:#f5c842;color:#1a3a2a;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:1.5rem;flex-shrink:0;
+  box-shadow:0 0 0 0 rgba(245,200,66,0.4);
+  transition:box-shadow .2s;}
+.step-item:hover .step-num{box-shadow:0 0 0 6px rgba(245,200,66,0.2);}
     .step-body{font-family:'Caveat',cursive;font-size:1.85rem;color:#e0f0e8;line-height:1.55;}
     .step-body strong{color:#f5c842;}
 
@@ -468,9 +518,36 @@ justify-content:center;gap:20px;}
 
   
     .nav-dots{display:flex;gap:6px;align-items:center;}
-    .dot{width:8px;height:8px;border-radius:50%;background:rgba(245,240,232,0.25);border:none;cursor:pointer;padding:0;transition:.15s;}
-    .dot.active{background:#f5c842;transform:scale(1.3);}
-    .dot:hover{background:rgba(245,240,232,0.5);}
+    .dot{width:8px;height:8px;border-radius:50%;background:rgba(245,240,232,0.25);border:none;cursor:pointer;padding:0;
+      transition:transform .25s cubic-bezier(.34,1.56,.64,1), background .2s, width .25s, border-radius .25s;}
+    .dot.active{background:#f5c842;transform:scale(1.4);width:20px;border-radius:4px;
+      box-shadow:0 0 8px rgba(245,200,66,0.6);}
+    .dot:hover{background:rgba(245,240,232,0.55);transform:scale(1.2);}
+    .page-count{
+      font-family:'Caveat',cursive;font-size:1.2rem;font-weight:700;color:#f5c842;
+      min-width:70px;text-align:center;
+      text-shadow:0 0 12px rgba(245,200,66,0.5);
+      transition:transform .2s cubic-bezier(.34,1.56,.64,1);
+    }
+    .page-count.bump{ animation:countBump .3s cubic-bezier(.34,1.56,.64,1); }
+    @keyframes countBump{
+      0%{transform:scale(1);}
+      50%{transform:scale(1.35);}
+      100%{transform:scale(1);}
+    }
+    /* Nav buttons grand style */
+    .nav-btn{
+      position:relative;overflow:hidden;
+      transition:transform .15s cubic-bezier(.34,1.56,.64,1), background .15s, box-shadow .2s;
+    }
+    .nav-btn:not(:disabled):hover{
+      transform:scale(1.12);
+      box-shadow:0 0 18px rgba(245,200,66,0.35);
+      border-color:rgba(245,200,66,0.55);
+    }
+    .nav-btn:not(:disabled):active{
+      transform:scale(0.94);
+    }
 
   
     /* ── Teacher Lock ── */
@@ -1211,11 +1288,11 @@ justify-content:center;gap:20px;}
     <div class="page-content">
       <div class="task-header-row">
         <div class="task-title">Writing Task</div>
-        <div class="task-subtitle">Copy the paragraph below in cursive on your notebook</div>
+        <div class="task-subtitle">September 21 &nbsp;·&nbsp; A Day to Remember &nbsp;·&nbsp; Copy in cursive on your notebook</div>
       </div>
       <div class="task-para">
-        <span class="hint">Copy this exactly — in cursive:</span>
-        Good handwriting takes time and patience. Every letter must be formed carefully, with smooth strokes and a steady hand. The more you practice, the easier it becomes. Start slowly, focus on each letter, and do not rush. Neat cursive writing is a skill that will serve you well throughout your life.
+        <span class="hint">✒ SEPTEMBER 21, 1972 — COPY IN CURSIVE:</span>
+        On September 21, 1972, Martial Law was declared in the Philippines. Many Filipinos lost their freedom to speak, to gather, and to be heard. Today, we remember their courage and sacrifice. As students, we honor them best by staying informed, thinking freely, and using our voices wisely. History written in silence is history forgotten.
       </div>
       <div class="warmup-label">Warm-up lines</div>
       <div class="write-lines">
@@ -1363,7 +1440,11 @@ function goTo(i){
   dots[cur].classList.remove('active');
   cur=i;
   dots[cur].classList.add('active');
-  document.getElementById('pc').textContent=(cur+1)+' / '+pages.length;
+  const pc=document.getElementById('pc');
+  pc.textContent=(cur+1)+' / '+pages.length;
+  pc.classList.remove('bump');
+  void pc.offsetWidth;
+  pc.classList.add('bump');
   document.getElementById('prev').disabled=cur===0;
   document.getElementById('next').disabled=cur===pages.length-1;
   checkLock(i);
